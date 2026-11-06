@@ -35,6 +35,11 @@ on:
         required: false
         type: boolean
         default: false
+      build_variant:
+        description: 'Patch 17 clock-control: p1 = KGSL PWR_MAX constraint (official API, DCVS alive), p2 = PWRCTRL governor disable (froze DCVS on sun kernel)'
+        required: false
+        type: string
+        default: 'p1'
       release:
         description: 'Publish a GitHub release (off = build and upload artifacts only)'
         required: false
@@ -175,6 +180,7 @@ jobs:
       BUILD_TARGET: android
       MESA_REF: ${{ needs.prepare.outputs.mesa_commit }}
       BUILD_VARIANTS: ${{ inputs.variants || 'all' }}
+      BUILD_VARIANT: ${{ inputs.build_variant || 'p1' }}
       NDK_VERSION: android-ndk-r29
       # The runner image sets ANDROID_NDK_HOME to its own NDK; clear it so
       # the build always uses NDK_VERSION.
