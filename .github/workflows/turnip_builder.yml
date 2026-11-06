@@ -181,6 +181,12 @@ jobs:
       ANDROID_NDK_HOME: ''
       CCACHE_DIR: ${{ github.workspace }}/.ccache
       CCACHE_MAXSIZE: 1G
+      # v8: CPU-side tuning for the driver's own code (command recording,
+      # shader compiler, autotune bookkeeping). armv8.2-a implies LSE
+      # atomics (mandatory since armv8.1), which every core in the Q7790
+      # implements, and cortex-a78 only tunes scheduling, so it cannot
+      # produce illegal instructions on any core.
+      ANDROID_CPU_FLAGS: '-march=armv8.2-a -mtune=cortex-a78'
     steps:
     - uses: actions/checkout@v4
 
